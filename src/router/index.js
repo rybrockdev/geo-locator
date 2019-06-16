@@ -3,7 +3,8 @@ import Router from 'vue-router'
 import GMap from '../components/Home/GMap'
 import Signup from '../components/Auth/Signup'
 import Login from '../components/Auth/Login'
-import firebase from '../../Firebase/init'
+import firebase from 'firebase'
+
 
 Vue.use(Router)
 
@@ -45,5 +46,10 @@ router.beforeEach((to, from, next) => {
       next({ name: 'Login' })
 
     }
+  } else {
+    next()
   }
 })
+
+
+export default router

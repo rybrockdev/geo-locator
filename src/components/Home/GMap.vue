@@ -15,10 +15,7 @@ export default {
   data() {
     return {
       lat: 53,
-      lng: -2,
-      maxZoom: 15,
-      minZoom: 3,
-      streetViewControl: false
+      lng: -2
     };
   },
 
@@ -26,8 +23,32 @@ export default {
     renderMap() {
       const map = new google.maps.Map(document.getElementById("map"), {
         center: { lat: this.lat, lng: this.lng },
-        zoom: 6
+        zoom: 6,
+        maxZoom: 15,
+        minZoom: 3,
+        steetViewControl: false
       });
+      db.collection("users")
+        .get()
+        .then(users => {
+          users.docs.forEach(doc => {
+            let data = doc.data();
+            if (data.geolocation) {
+              let marker = new google.maps.Marker({
+                position: {
+                  lat: data.geolocation.lat,
+                  lng: data.geolocation.lng
+                },
+                map
+              });
+              // add click event to marker
+
+              marker.addListener("click", () => {
+                console.log(doc.id);
+              });
+            }
+          });
+        });
     }
   },
 
@@ -65,7 +86,7 @@ export default {
           console.log(err);
           this.renderMap();
         },
-        { maximumAge: 60000, timeout: 3000 }
+        { maximumAge: 60000, timeout: 6000 }
       );
     } else {
       // center map values to default
