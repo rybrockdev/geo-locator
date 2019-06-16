@@ -3,12 +3,14 @@ import Router from 'vue-router'
 import GMap from '../components/Home/GMap'
 import Signup from '../components/Auth/Signup'
 import Login from '../components/Auth/Login'
+import ViewProfile from '@/components/Profile/ViewProfile'
 import firebase from 'firebase'
 
 
 Vue.use(Router)
 
 const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -29,7 +31,17 @@ const router = new Router({
       path: '/login',
       name: 'Login',
       component: Login
-    }
+    },
+
+    {
+      path: '/profile/:id',
+      name: 'ViewProfile',
+      component: ViewProfile,
+      meta: {
+        requiresAuth: true
+      }
+    },
+
   ]
 })
 
